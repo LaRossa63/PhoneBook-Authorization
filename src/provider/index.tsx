@@ -1,5 +1,10 @@
 import React, { FC } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
 import { BaseStyle } from 'theme/BaseStyle';
+
+import { ThemeProvider } from 'styled-components';
+import { Theme } from 'theme/Theme';
 
 interface Props {
   children: React.ReactNode;
@@ -7,8 +12,10 @@ interface Props {
 
 export const AppProvider: FC<Props> = ({ children }) => {
   return (
-    <>
-      <BaseStyle>{children}</BaseStyle>
-    </>
+    <BrowserRouter>
+      <ThemeProvider theme={Theme}>
+        <BaseStyle>{children}</BaseStyle>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 };

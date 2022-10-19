@@ -26,7 +26,6 @@ export const Header = () => {
 
     removeTokenLocalStore();
     queryClient.setQueryData(LinksApi.getAllContactsKey, null);
-    // navigator(AppRoutes.home);
   };
 
   return (

@@ -15,8 +15,9 @@ export const useRegisterForm = () => {
   function handleError(error: any) {
     const { response, message } = error;
 
-    console.log(response);
-    console.log(message);
+    if (message) {
+      setError('Неизвестная ошибка');
+    }
   }
 
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +43,7 @@ export const useRegisterForm = () => {
   };
 
   const handleClickAuthorize = () => {
-    navigator(`/${AppRoutes.login}`);
+    navigator(`/${AppRoutes.signIn}`);
   };
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {

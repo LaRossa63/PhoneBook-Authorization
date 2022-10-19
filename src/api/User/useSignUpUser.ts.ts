@@ -4,13 +4,15 @@ import { LinksApi } from 'types/types';
 import { writeTokenLocalStore } from 'utils/LocalStore';
 import { UserService } from './User.service';
 
-export const useLoginUser = () => {
+export const useRegisterUser = (callback: (error: any) => void) => {
   return useMutation({
     onSuccess: (data) => {
       writeTokenLocalStore(data.token);
       queryClient.setQueryData(LinksApi.getCurrentUserKey, data.user);
     },
 
-    mutationFn: UserService.loginUser,
+    onError: (error) => callback(error),
+
+    mutationFn: UserService.signUpUser,
   });
 };

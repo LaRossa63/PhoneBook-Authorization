@@ -1,8 +1,8 @@
 export enum LinksApi {
   baseUrl = 'https://connections-api.herokuapp.com',
 
-  registerUser = '/users/signup',
-  loginUser = '/users/login',
+  signUpUser = '/users/signup',
+  signInUser = '/users/login',
   exitUser = '/users/logout',
 
   getAllContactsKey = 'contacts-list',
@@ -17,8 +17,8 @@ export enum LinksApi {
 export enum AppRoutes {
   home = '/',
 
-  register = 'register',
-  login = 'login',
+  signUp = 'signup',
+  signIn = 'signin',
   contacts = 'contacts',
 }
 

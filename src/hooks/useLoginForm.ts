@@ -9,7 +9,15 @@ export const useLoginForm = () => {
   const [error, setError] = useState('');
 
   const navigator = useNavigate();
-  const { mutateAsync, isLoading, isError } = useLoginUser();
+  const { mutateAsync, isLoading, isError } = useLoginUser(handleError);
+
+  function handleError(error: any) {
+    const { response, message } = error;
+
+    if (message) {
+      setError('Неизвестная ошибка');
+    }
+  }
 
   const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,7 +41,7 @@ export const useLoginForm = () => {
   };
 
   const handleClickRegister = () => {
-    navigator(`/${AppRoutes.register}`);
+    navigator(`/${AppRoutes.signUp}`);
   };
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {

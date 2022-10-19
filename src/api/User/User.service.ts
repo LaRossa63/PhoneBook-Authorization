@@ -8,12 +8,12 @@ import {
 } from 'types/types';
 
 export const UserService = {
-  async registerUser(body: SignUpFormDTO): Promise<ResponseSignUpApi> {
-    return await Axios.post(LinksApi.registerUser, body);
+  async signUpUser(body: SignUpFormDTO): Promise<ResponseSignUpApi> {
+    return await Axios.post(LinksApi.signUpUser, body);
   },
 
-  async loginUser(body: SignInFormDTO): Promise<ResponseSignInApi> {
-    return await Axios.post(LinksApi.loginUser, body);
+  async signInUser(body: SignInFormDTO): Promise<ResponseSignInApi> {
+    return await Axios.post(LinksApi.signInUser, body);
   },
 
   async exitUser() {

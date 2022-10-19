@@ -23,11 +23,11 @@ export const AppRouter = () => {
 
         {!user && (
           <>
-            <Route path={AppRoutes.login}>
+            <Route path={AppRoutes.signIn}>
               <Route index element={<SignIn />} />
             </Route>
 
-            <Route path={AppRoutes.register}>
+            <Route path={AppRoutes.signUp}>
               <Route index element={<SignUp />} />
             </Route>
           </>
@@ -36,7 +36,7 @@ export const AppRouter = () => {
         <Route
           path="*"
           element={
-            <Navigate to={user ? AppRoutes.contacts : AppRoutes.login} />
+            <Navigate to={user ? AppRoutes.contacts : AppRoutes.signIn} />
           }
         />
       </Routes>

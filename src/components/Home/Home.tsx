@@ -16,8 +16,8 @@ const Container = styled.div`
 export const Home = () => {
   return (
     <Container>
-      <Link to={AppRoutes.login}>Авторизация</Link>
-      <Link to={AppRoutes.register}>Регистрация</Link>
+      <Link to={AppRoutes.signIn}>Авторизация</Link>
+      <Link to={AppRoutes.signUp}>Регистрация</Link>
     </Container>
   );
 };

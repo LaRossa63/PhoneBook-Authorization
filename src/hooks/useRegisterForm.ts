@@ -1,6 +1,7 @@
+import { useRegisterUser } from 'api';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { AppRoutes, RegisterForm } from 'types/types';
+import { AppRoutes, SignUpFormDTO } from 'types/types';
 
 export const useRegisterForm = () => {
   const [name, setName] = useState('');
@@ -8,12 +9,20 @@ export const useRegisterForm = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
+  const { mutateAsync, isLoading } = useRegisterUser(handleError);
   const navigator = useNavigate();
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  function handleError(error: any) {
+    const { response, message } = error;
+
+    console.log(response);
+    console.log(message);
+  }
+
+  const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newUser: RegisterForm = {
+    const newUser: SignUpFormDTO = {
       name: name,
       email: email,
       password: password,
@@ -21,13 +30,15 @@ export const useRegisterForm = () => {
 
     const resultValidForm = validateForm(newUser);
 
-    if (!resultValidForm) {
-      clearForm();
-      setError('');
+    if (resultValidForm) {
+      setError(resultValidForm);
       return;
     }
 
-    setError(resultValidForm);
+    await mutateAsync(newUser);
+
+    clearForm();
+    setError('');
   };
 
   const handleClickAuthorize = () => {
@@ -52,7 +63,7 @@ export const useRegisterForm = () => {
     setPassword('');
   };
 
-  const validateForm = (newUser: RegisterForm) => {
+  const validateForm = (newUser: SignUpFormDTO) => {
     const { name, email, password } = newUser;
 
     const NAME_LENGTH = 6;
@@ -82,5 +93,6 @@ export const useRegisterForm = () => {
     email,
     password,
     error,
+    isLoading,
   };
 };

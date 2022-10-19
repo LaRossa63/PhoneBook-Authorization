@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { List } from '@mui/material';
-import { ResponseContact } from 'types/types';
 import { ContactsListItem } from '../ContactsListItem';
+import { useGetAllContacts } from 'api';
+import { ErrorText } from 'components/Elements';
 
 const Container = styled.div`
   display: flex;
@@ -13,35 +14,18 @@ const Container = styled.div`
 `;
 
 export const ContactsList = () => {
-  const test: ResponseContact[] = [
-    {
-      id: '0',
-      name: 'LaRossa',
-      number: '+79397549977',
-    },
-    {
-      id: '1',
-      name: 'Yana',
-      number: '+79021589442',
-    },
-    {
-      id: '2',
-      name: 'LaRossa',
-      number: '+79397549977',
-    },
-    {
-      id: '3',
-      name: 'Yana',
-      number: '+79021589442',
-    },
-  ];
+  const { data: contacts } = useGetAllContacts();
 
   return (
     <Container>
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        {test.map((contact) => (
-          <ContactsListItem key={contact.id} contact={contact} />
-        ))}
+        {contacts?.length ? (
+          contacts.map((contact) => (
+            <ContactsListItem key={contact.id} contact={contact} />
+          ))
+        ) : (
+          <ErrorText>Нету контактов</ErrorText>
+        )}
       </List>
     </Container>
   );

@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-
-import { BaseStyle } from 'theme/BaseStyle';
-
+import { QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
+import { BaseStyle } from 'theme/BaseStyle';
 import { Theme } from 'theme/Theme';
+import { queryClient } from 'api';
 
 interface Props {
   children: React.ReactNode;
@@ -12,10 +13,13 @@ interface Props {
 
 export const AppProvider: FC<Props> = ({ children }) => {
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={Theme}>
-        <BaseStyle>{children}</BaseStyle>
-      </ThemeProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <ThemeProvider theme={Theme}>
+          <BaseStyle>{children}</BaseStyle>
+        </ThemeProvider>
+      </BrowserRouter>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   );
 };

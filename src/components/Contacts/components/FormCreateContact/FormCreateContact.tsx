@@ -27,6 +27,7 @@ export const FormCreateContact = () => {
     name,
     number,
     error,
+    isLoading,
   } = useCreateContactForm();
 
   return (
@@ -35,7 +36,7 @@ export const FormCreateContact = () => {
         <Input label="имя" value={name} onChange={handleChangeName} />
         <Input label="номер" value={number} onChange={handleChangeNumber} />
 
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={isLoading}>
           Создать контакт
         </Button>
 

@@ -8,8 +8,27 @@ import {
   Button,
   IconButton,
 } from '@mui/material';
+import { useNavigate } from 'react-router';
+import { AppRoutes, LinksApi } from 'types/types';
+import { queryClient, useExitUser } from 'api';
+import { removeTokenLocalStore } from 'utils/LocalStore';
 
 export const Header = () => {
+  const navigator = useNavigate();
+  const { mutateAsync } = useExitUser();
+
+  const handleClickLogo = () => {
+    navigator(AppRoutes.home);
+  };
+
+  const handleClickExitUser = async () => {
+    await mutateAsync();
+
+    removeTokenLocalStore();
+    queryClient.setQueryData(LinksApi.getAllContactsKey, null);
+    // navigator(AppRoutes.home);
+  };
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
@@ -22,10 +41,17 @@ export const Header = () => {
               aria-label="menu"
               sx={{ mr: 2 }}
             ></IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1 }}
+              onClick={handleClickLogo}
+            >
               PhoneBook
             </Typography>
-            <Button color="inherit">exit</Button>
+            <Button color="inherit" onClick={handleClickExitUser}>
+              exit
+            </Button>
           </Toolbar>
         </AppBar>
       </Box>

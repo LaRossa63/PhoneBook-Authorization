@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 
-import { CreateContactForm } from 'types/types';
+import { CreateContactFormDTO } from 'types/types';
+import { useCreateContact } from 'api';
 
 export const useCreateContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [error, setError] = useState('');
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const { mutateAsync, isLoading } = useCreateContact();
+
+  const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newContact: CreateContactForm = {
+    const newContact: CreateContactFormDTO = {
       id: nanoid(),
       name: name,
       number: number,
@@ -19,13 +22,15 @@ export const useCreateContactForm = () => {
 
     const resultValidForm = validateForm(newContact);
 
-    if (!resultValidForm) {
-      clearForm();
-      setError('');
+    if (resultValidForm) {
+      setError(resultValidForm);
       return;
     }
 
-    setError(resultValidForm);
+    await mutateAsync(newContact);
+
+    clearForm();
+    setError('');
   };
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +46,7 @@ export const useCreateContactForm = () => {
     setNumber('');
   };
 
-  const validateForm = (newUser: CreateContactForm) => {
+  const validateForm = (newUser: CreateContactFormDTO) => {
     const { name, number } = newUser;
 
     const NAME_LENGTH = 6;
@@ -63,5 +68,6 @@ export const useCreateContactForm = () => {
     name,
     number,
     error,
+    isLoading,
   };
 };

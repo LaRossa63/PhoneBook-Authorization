@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useLoginUser } from 'api';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { AppRoutes, LoginForm } from 'types/types';
+import { AppRoutes, SignInFormDTO } from 'types/types';
 
 export const useLoginForm = () => {
   const [email, setEmail] = useState('');
@@ -8,24 +9,27 @@ export const useLoginForm = () => {
   const [error, setError] = useState('');
 
   const navigator = useNavigate();
+  const { mutateAsync, isLoading, isError } = useLoginUser();
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const authorizeUser: LoginForm = {
+    const authorizeUser: SignInFormDTO = {
       email: email,
       password: password,
     };
 
     const resultValidForm = validateForm(authorizeUser);
 
-    if (!resultValidForm) {
-      clearForm();
-      setError('');
+    if (resultValidForm) {
+      setError(resultValidForm);
       return;
     }
 
-    setError(resultValidForm);
+    await mutateAsync(authorizeUser);
+
+    clearForm();
+    setError('');
   };
 
   const handleClickRegister = () => {
@@ -45,7 +49,7 @@ export const useLoginForm = () => {
     setPassword('');
   };
 
-  const validateForm = (newUser: LoginForm) => {
+  const validateForm = (newUser: SignInFormDTO) => {
     const { email, password } = newUser;
 
     const EMAIL_LENGTH = 6;
@@ -68,5 +72,7 @@ export const useLoginForm = () => {
     email,
     password,
     error,
+    isLoading,
+    isError,
   };
 };

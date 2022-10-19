@@ -9,15 +9,18 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-import { ResponseContact } from 'types/types';
+import { ResponseContactApi } from 'types/types';
+import { useDeleteContact } from 'api';
 
 interface Props {
-  contact: ResponseContact;
+  contact: ResponseContactApi;
 }
 
 export const ContactsListItem: FC<Props> = ({ contact }) => {
+  const { mutate } = useDeleteContact();
+
   const handleClickDelete = (id: string) => {
-    console.log(id);
+    mutate(id);
   };
 
   return (

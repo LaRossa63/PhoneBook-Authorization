@@ -21,7 +21,7 @@ const Form = styled.form`
   gap: 10px;
 `;
 
-export const Register = () => {
+export const SignUp = () => {
   const {
     handleSubmitForm,
     handleClickAuthorize,
@@ -32,6 +32,7 @@ export const Register = () => {
     email,
     password,
     error,
+    isLoading,
   } = useRegisterForm();
 
   return (
@@ -60,7 +61,7 @@ export const Register = () => {
           onChange={handleChangePassword}
         />
 
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={isLoading}>
           Регистрация
         </Button>
 

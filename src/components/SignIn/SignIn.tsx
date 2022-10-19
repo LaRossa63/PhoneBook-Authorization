@@ -20,7 +20,7 @@ const Form = styled.form`
 
   gap: 10px;
 `;
-export const Login = () => {
+export const SignIn = () => {
   const {
     handleSubmitForm,
     handleClickRegister,
@@ -29,6 +29,7 @@ export const Login = () => {
     email,
     password,
     error,
+    isLoading,
   } = useLoginForm();
 
   return (
@@ -50,7 +51,7 @@ export const Login = () => {
           onChange={handleChangePassword}
         />
 
-        <Button variant="contained" type="submit">
+        <Button variant="contained" type="submit" disabled={isLoading}>
           Войти
         </Button>
 

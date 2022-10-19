@@ -1,45 +1,23 @@
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, useRoutes } from 'react-router';
 import { AppRoutes } from 'types/types';
 
-import { Home, Contacts, SignIn, SignUp } from 'components';
-import { AppLayout } from 'Layout';
 import { useGetMe } from 'hooks/useGetMe';
+import { protectedRoutes } from './protectedRoutes';
+import { publicRoutes } from './publicRoutes';
 
 export const AppRouter = () => {
   const { data: user } = useGetMe();
 
-  return (
-    <>
-      <Routes>
-        <Route path={AppRoutes.home} element={<AppLayout />}>
-          <Route index element={<Home />} />
+  const commonRoutes = [
+    {
+      path: '*',
+      element: <Navigate to={user ? AppRoutes.contacts : AppRoutes.signIn} />,
+    },
+  ];
 
-          {user && (
-            <Route path={AppRoutes.contacts}>
-              <Route index element={<Contacts />} />
-            </Route>
-          )}
-        </Route>
+  const routes = user ? protectedRoutes : publicRoutes;
 
-        {!user && (
-          <>
-            <Route path={AppRoutes.signIn}>
-              <Route index element={<SignIn />} />
-            </Route>
+  const element = useRoutes([...routes, ...commonRoutes]);
 
-            <Route path={AppRoutes.signUp}>
-              <Route index element={<SignUp />} />
-            </Route>
-          </>
-        )}
-
-        <Route
-          path="*"
-          element={
-            <Navigate to={user ? AppRoutes.contacts : AppRoutes.signIn} />
-          }
-        />
-      </Routes>
-    </>
-  );
+  return <>{element}</>;
 };
